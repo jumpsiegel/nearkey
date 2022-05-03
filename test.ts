@@ -104,7 +104,10 @@ async function test() {
 
     const guardianKey = "52A26Ce40F8CAa8D36155d37ef0D5D783fc614d2";
     const guardianPrivKeys = "563d8d2fd4e701901d3846dee7ae7a92c18f1975195264d676f8407ac5976757";
+
     const message = Buffer.from("Hello there").toString("hex");
+
+    // The actual hash function here doesn't matter that much but this happens to be the hash function used by wormhole
     const hash = web3Utils.keccak256(web3Utils.keccak256("0x" + message)).substr(2);
 
     
@@ -112,17 +115,17 @@ async function test() {
     const key = ec.keyFromPrivate(guardianPrivKeys);
     const signature = key.sign(hash, { canonical: true });
 
-    const sig = signature.r.toString(16) + signature.s.toString(16) ;
+    const sig = signature.r.toString(16) + signature.s.toString(16);
     console.log("hash: " + hash);
     console.log("sig: " + sig);
-    console.log(signature);
+    console.log("originalKey: " + guardianKey);
 
-  await initNear();
-  const { wormholeUseContract } = await initTest();
+    await initNear();
+    const { wormholeUseContract } = await initTest();
 
-  let ret = await wormholeUseContract.recover_key({ args: { digest: hash, sig: sig, recovery: signature.recoveryParam } });
+    let ret = await wormholeUseContract.recover_key({ args: { digest: hash, sig: sig, recovery: signature.recoveryParam } });
 
-  console.log(ret);
+    console.log(ret);
 }
 
 test();
