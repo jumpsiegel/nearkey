@@ -128,6 +128,7 @@ async function test() {
     let ret = await wormholeUseContract.recover_key({ args: { digest: hash, sig: sig, recovery: signature.recoveryParam } });
 
     console.log(ret);
+    console.log(guardianKey);
 }
 
 test();

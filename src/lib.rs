@@ -24,10 +24,7 @@ impl Wormhole {
      let h = hex::decode(digest).expect("invalid digest");
      let s = hex::decode(sig).expect("invalid signature");
 
-     assert!(h.len() == 32);
-     assert!(s.len() == 64);
-
      let ret = env::ecrecover(&h, &s, recovery, true).expect("cannot recover key");
-     return hex::encode(ret);
+     return hex::encode(&env::keccak256(&ret)[12..32]);
    }
  }
