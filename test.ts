@@ -102,8 +102,8 @@ async function initTest() {
 
 async function test() {
 
-    const guardianKey = "52A26Ce40F8CAa8D36155d37ef0D5D783fc614d2";
-    const guardianPrivKeys = "563d8d2fd4e701901d3846dee7ae7a92c18f1975195264d676f8407ac5976757";
+    const guardianKey = "beFA429d57cD18b7F8A4d91A2da9AB4AF05d0FBe";
+    const guardianPrivKeys = "cfb12303a19cde580bb4dd771639b0d26bc68353645571a8cff516ab2ee113a0";
 
     const message = Buffer.from("Hello there").toString("hex");
 
@@ -114,6 +114,8 @@ async function test() {
     const ec = new elliptic.ec("secp256k1");
     const key = ec.keyFromPrivate(guardianPrivKeys);
     const signature = key.sign(hash, { canonical: true });
+
+//    const key.recoverPubKey(hash, signature, signature.recoveryParam, "hex")
 
     const sig = signature.r.toString(16) + signature.s.toString(16);
     console.log("hash: " + hash);
